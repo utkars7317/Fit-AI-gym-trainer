@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitAI — Smart Gym Trainer & Diet Planner</title>
+<meta name="description" content="FitAI is a premium AI-powered fitness platform delivering personalized workout plans, diet plans, calculators, and progress tracking.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+
+<!-- Critical CSS: loaded immediately, blocking (small file, needed for first paint) -->
+<link rel="stylesheet" href="style.css">
+
+<!-- Only the weights actually used, cuts ~8 font files down to 6 -->
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Non-critical CSS (icons, scroll-animation lib): fetched with low priority, applied once loaded, so they never block first paint -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" media="print" onload="this.media='all'">
+<noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
+</noscript>
+</head>
+<body>
+
+<div id="loader"><div class="loader-logo">Fit<span>AI</span></div><div class="loader-bar"></div></div>
+<div id="toast"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="#home" class="brand" data-nav="home">Fit<span>AI</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" data-nav="home">Home</a></li>
+      <li><a href="#planner" data-nav="planner">AI Planner</a></li>
+      <li><a href="#workout" data-nav="workout">Workout</a></li>
+      <li><a href="#diet" data-nav="diet">Diet</a></li>
+      <li><a href="#library" data-nav="library">Exercise Library</a></li>
+      <li><a href="#calculators" data-nav="calculators">Calculators</a></li>
+      <li><a href="#dashboard" data-nav="dashboard">Progress</a></li>
+      <li><a href="#contact" data-nav="contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeToggle" title="Toggle dark/light"><i class="fa-solid fa-moon"></i></button>
+      <button class="btn btn-primary btn-sm" id="ctaNav" onclick="goTo('planner')">Start Journey</button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- ================= HOME ================= -->
+<section id="home" class="page active">
+  <div class="hero">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=60&w=1600&auto=format&fit=crop" alt="Gym training background" fetchpriority="high" decoding="async">
+    </div>
+    <div class="container hero-content">
+      <span class="eyebrow"><i class="fa-solid fa-bolt"></i> AI-Powered Training</span>
+      <h1>Train Smarter. <span class="grad-text">Eat Smarter.</span><br>Become Unstoppable.</h1>
+      <p>FitAI builds a personalized weekly workout and diet plan around your body, your goals, and your schedule — powered by intelligent recommendations, not guesswork.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="goTo('planner')"><i class="fa-solid fa-dumbbell"></i> Start Your Fitness Journey</button>
+        <button class="btn btn-outline" onclick="goTo('library')"><i class="fa-solid fa-book-open"></i> Explore Exercises</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num" data-count="48200">0</div><div class="stat-label">Members</div></div>
+        <div><div class="stat-num" data-count="612000">0</div><div class="stat-label">Workouts Logged</div></div>
+        <div><div class="stat-num" data-count="9400">0</div><div class="stat-label">Success Stories</div></div>
+        <div><div class="stat-num" data-count="180">0</div><div class="stat-label">Expert Trainers</div></div>
+      </div>
+    </div>
+    <div class="scroll-cue"><i class="fa-solid fa-chevron-down"></i></div>
+  </div>
+
+  <div class="quote-bar" id="quoteBar"></div>
+
+  <!-- Trainers -->
+  <div class="section-block">
+    <div class="container">
+      <div class="section-head" data-aos="fade-up">
+        <span class="eyebrow">Meet The Team</span>
+        <h2 class="section-title">Trainer <span class="grad-text">Highlights</span></h2>
+        <p class="section-sub" style="margin:0 auto;">Certified experts who design every plan FitAI's engine is trained on.</p>
+      </div>
+      <div class="grid-4" id="trainerGrid"></div>
+    </div>
+  </div>
+
+  <!-- Transformation gallery -->
+  <div class="section-block alt">
+    <div class="container">
+      <div class="section-head" data-aos="fade-up">
+        <span class="eyebrow">Real Results</span>
+        <h2 class="section-title">Client <span class="grad-text">Transformations</span></h2>
+        <p class="section-sub" style="margin:0 auto;">Real members, real progress, real discipline.</p>
+      </div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="section-block">
+    <div class="container">
+      <div class="section-head" data-aos="fade-up">
+        <span class="eyebrow">Testimonials</span>
+        <h2 class="section-title">What Our <span class="grad-text">Members Say</span></h2>
+      </div>
+      <div class="grid-3" id="testiGrid"></div>
+    </div>
+  </div>
+
+  <!-- CTA band -->
+  <div class="section-block alt">
+    <div class="container" style="text-align:center;" data-aos="zoom-in">
+      <h2 class="section-title">Ready to build your plan?</h2>
+      <p class="section-sub" style="margin:0 auto 30px;">Answer a few questions and get a complete weekly workout + diet plan in seconds.</p>
+      <button class="btn btn-gold" onclick="goTo('planner')"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate My Plan</button>
+    </div>
+  </div>
+</section>
+<!-- ================= AI PLANNER ================= -->
+<section id="planner" class="page">
+  <div class="container">
+    <div class="section-head" data-aos="fade-up">
+      <span class="eyebrow">AI Fitness Planner</span>
+      <h2 class="section-title">Build Your <span class="grad-text">Custom Plan</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Tell us about yourself and FitAI will generate a complete weekly workout & diet plan tailored to you.</p>
+    </div>
+
+    <form class="glass-card" id="plannerForm" style="max-width:900px;margin:0 auto;">
+      <div class="form-grid">
+        <div class="field"><label>Name</label><input type="text" id="p_name" placeholder="Your name" required></div>
+        <div class="field"><label>Age</label><input type="number" id="p_age" min="12" max="90" placeholder="e.g. 24" required></div>
+        <div class="field"><label>Gender</label>
+          <select id="p_gender"><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select>
+        </div>
+        <div class="field"><label>Height (cm)</label><input type="number" id="p_height" min="120" max="230" placeholder="e.g. 175" required></div>
+        <div class="field"><label>Weight (kg)</label><input type="number" id="p_weight" min="30" max="220" placeholder="e.g. 70" required></div>
+        <div class="field"><label>Diet Preference</label>
+          <select id="p_diet"><option value="veg">Vegetarian</option><option value="nonveg">Non-Vegetarian</option></select>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:22px;"><label>Fitness Goal</label>
+        <div class="chip-group" id="goalChips">
+          <div class="chip active" data-val="weightloss">Weight Loss</div>
+          <div class="chip" data-val="musclegain">Muscle Gain</div>
+          <div class="chip" data-val="fatloss">Fat Loss</div>
+          <div class="chip" data-val="strength">Strength</div>
+          <div class="chip" data-val="general">General Fitness</div>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:22px;"><label>Workout Experience</label>
+        <div class="chip-group" id="expChips">
+          <div class="chip active" data-val="beginner">Beginner</div>
+          <div class="chip" data-val="intermediate">Intermediate</div>
+          <div class="chip" data-val="advanced">Advanced</div>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:22px;"><label>Days Available Per Week</label>
+        <div class="chip-group" id="daysChips">
+          <div class="chip" data-val="3">3 Days</div>
+          <div class="chip" data-val="4">4 Days</div>
+          <div class="chip active" data-val="5">5 Days</div>
+          <div class="chip" data-val="6">6 Days</div>
+          <div class="chip" data-val="7">7 Days</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="margin-top:30px;width:100%;justify-content:center;"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Plan</button>
+    </form>
+
+    <div id="plannerResult" style="max-width:900px;margin:40px auto 0;display:none;">
+      <div class="glass-card" style="text-align:center;">
+        <h3><i class="fa-solid fa-circle-check" style="color:var(--gold);"></i> Plan Generated Successfully</h3>
+        <p class="section-sub" style="margin:10px auto 0;">Your personalized weekly workout and diet plan is ready.</p>
+        <div style="display:flex;gap:14px;justify-content:center;margin-top:18px;flex-wrap:wrap;">
+          <button class="btn btn-primary btn-sm" onclick="goTo('workout')"><i class="fa-solid fa-dumbbell"></i> View Workout Plan</button>
+          <button class="btn btn-gold btn-sm" onclick="goTo('diet')"><i class="fa-solid fa-utensils"></i> View Diet Plan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WEEKLY WORKOUT ================= -->
+<section id="workout" class="page">
+  <div class="container">
+    <div class="section-head" data-aos="fade-up">
+      <span class="eyebrow">Weekly Schedule</span>
+      <h2 class="section-title">Your <span class="grad-text">Workout Plan</span></h2>
+      <p class="section-sub" style="margin:0 auto;" id="workoutSub">Generate a plan first from the AI Planner page to see your personalized weekly split.</p>
+    </div>
+    <div id="workoutContent"></div>
+  </div>
+</section>
+
+<!-- ================= WEEKLY DIET ================= -->
+<section id="diet" class="page">
+  <div class="container">
+    <div class="section-head" data-aos="fade-up">
+      <span class="eyebrow">Nutrition</span>
+      <h2 class="section-title">Your <span class="grad-text">Diet Plan</span></h2>
+      <p class="section-sub" style="margin:0 auto;" id="dietSub">Generate a plan first from the AI Planner page to see your personalized weekly meals.</p>
+    </div>
+    <div id="dietContent"></div>
+  </div>
+</section>
+<!-- ================= EXERCISE LIBRARY ================= -->
+<section id="library" class="page">
+  <div class="container">
+    <div class="section-head" data-aos="fade-up">
+      <span class="eyebrow">Exercise Database</span>
+      <h2 class="section-title">Exercise <span class="grad-text">Library</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Search and browse exercises by muscle group with full technique breakdowns.</p>
+    </div>
+    <div class="lib-controls">
+      <div class="search-bar"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="libSearch" placeholder="Search exercises (e.g. squat, bench press)..."></div>
+      <button class="btn btn-outline btn-sm" id="favFilterBtn"><i class="fa-solid fa-heart"></i> Favorites</button>
+    </div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <div class="lib-grid" id="libGrid"></div>
+  </div>
+</section>
+
+<!-- ================= CALCULATORS ================= -->
+<section id="calculators" class="page">
+  <div class="container">
+    <div class="section-head" data-aos="fade-up">
+      <span class="eyebrow">Fitness Calculators</span>
+      <h2 class="section-title">Know Your <span class="grad-text">Numbers</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Five essential calculators to guide your training and nutrition decisions.</p>
+    </div>
+    <div class="calc-grid">
+
+      <div class="glass-card calc-card" id="bmiCalc">
+        <h3><i class="fa-solid fa-weight-scale"></i> BMI Calculator</h3>
+        <p class="section-sub" style="margin-bottom:16px;">Body Mass Index based on your height and weight.</p>
+        <div class="form-grid">
+          <div class="field"><label>Height (cm)</label><input type="number" id="bmi_h" placeholder="175"></div>
+          <div class="field"><label>Weight (kg)</label><input type="number" id="bmi_w" placeholder="70"></div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:16px;" onclick="calcBMI()">Calculate BMI</button>
+        <div class="calc-result" id="bmiResult"></div>
+      </div>
+
+      <div class="glass-card calc-card" id="calorieCalc">
+        <h3><i class="fa-solid fa-fire"></i> Daily Calorie Calculator</h3>
+        <p class="section-sub" style="margin-bottom:16px;">Estimated maintenance calories (TDEE) based on Mifflin-St Jeor.</p>
+        <div class="form-grid">
+          <div class="field"><label>Age</label><input type="number" id="cal_age" placeholder="24"></div>
+          <div class="field"><label>Gender</label><select id="cal_gender"><option value="male">Male</option><option value="female">Female</option></select></div>
+          <div class="field"><label>Height (cm)</label><input type="number" id="cal_h" placeholder="175"></div>
+          <div class="field"><label>Weight (kg)</label><input type="number" id="cal_w" placeholder="70"></div>
+          <div class="field"><label>Activity Level</label>
+            <select id="cal_activity">
+              <option value="1.2">Sedentary</option><option value="1.375">Light (1-3d/wk)</option>
+              <option value="1.55" selected>Moderate (3-5d/wk)</option><option value="1.725">Active (6-7d/wk)</option>
+              <option value="1.9">Very Active (athlete)</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:16px;" onclick="calcCalories()">Calculate Calories</button>
+        <div class="calc-result" id="calorieResult"></div>
+      </div>
+
+      <div class="glass-card calc-card" id="waterCalc">
+        <h3><i class="fa-solid fa-droplet"></i> Water Intake Calculator</h3>
+        <p class="section-sub" style="margin-bottom:16px;">Recommended daily water intake based on body weight and activity.</p>
+        <div class="form-grid">
+          <div class="field"><label>Weight (kg)</label><input type="number" id="water_w" placeholder="70"></div>
+          <div class="field"><label>Activity Level</label>
+            <select id="water_activity"><option value="0.033">Low</option><option value="0.04" selected>Moderate</option><option value="0.05">High (training daily)</option></select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:16px;" onclick="calcWater()">Calculate Water Intake</button>
+        <div class="calc-result" id="waterResult"></div>
+      </div>
+
+      <div class="glass-card calc-card" id="proteinCalc">
+        <h3><i class="fa-solid fa-drumstick-bite"></i> Protein Requirement Calculator</h3>
+        <p class="section-sub" style="margin-bottom:16px;">Daily protein target based on weight and goal.</p>
+        <div class="form-grid">
+          <div class="field"><label>Weight (kg)</label><input type="number" id="protein_w" placeholder="70"></div>
+          <div class="field"><label>Goal</label>
+            <select id="protein_goal"><option value="1.4">General Fitness</option><option value="1.8">Fat Loss</option><option value="2.0" selected>Muscle Gain</option><option value="2.2">Strength / Athlete</option></select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:16px;" onclick="calcProtein()">Calculate Protein</button>
+        <div class="calc-result" id="proteinResult"></div>
+      </div>
+
+      <div class="glass-card calc-card" id="bodyfatCalc" style="grid-column:1/-1;">
+        <h3><i class="fa-solid fa-ruler"></i> Body Fat Calculator (U.S. Navy Method)</h3>
+        <p class="section-sub" style="margin-bottom:16px;">Estimate body fat percentage using circumference measurements.</p>
+        <div class="form-grid">
+          <div class="field"><label>Gender</label><select id="bf_gender"><option value="male">Male</option><option value="female">Female</option></select></div>
+          <div class="field"><label>Height (cm)</label><input type="number" id="bf_h" placeholder="175"></div>
+          <div class="field"><label>Neck (cm)</label><input type="number" id="bf_neck" placeholder="38"></div>
+          <div class="field"><label>Waist (cm)</label><input type="number" id="bf_waist" placeholder="85"></div>
+          <div class="field" id="bf_hip_field" style="display:none;"><label>Hip (cm)</label><input type="number" id="bf_hip" placeholder="95"></div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:16px;" onclick="calcBodyFat()">Calculate Body Fat</button>
+        <div class="calc-result" id="bodyfatResult"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ================= DASHBOARD ================= -->
+<section id="dashboard" class="page">
+  <div class="container">
+    <div class="section-head" data-aos="fade-up">
+      <span class="eyebrow">Track Your Progress</span>
+      <h2 class="section-title">Progress <span class="grad-text">Dashboard</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Log your daily stats and watch your transformation unfold.</p>
+    </div>
+
+    <form class="glass-card log-form" id="logForm">
+      <div class="field"><label>Weight (kg)</label><input type="number" id="log_weight" step="0.1" placeholder="70" required></div>
+      <div class="field"><label>Water (L)</label><input type="number" id="log_water" step="0.1" placeholder="2.5"></div>
+      <div class="field"><label>Calories Burned</label><input type="number" id="log_calories" placeholder="450"></div>
+      <div class="field"><label>Workout Done?</label><select id="log_workout"><option value="yes">Yes</option><option value="no">No</option></select></div>
+      <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Log Today</button>
+    </form>
+
+    <div class="dash-grid">
+      <div class="glass-card kpi"><i class="fa-solid fa-weight-scale"></i><div class="val" id="kpiWeight">--</div><div class="lbl">Current Weight (kg)</div></div>
+      <div class="glass-card kpi"><i class="fa-solid fa-fire"></i><div class="val" id="kpiCalories">--</div><div class="lbl">Calories Burned (wk)</div></div>
+      <div class="glass-card kpi"><i class="fa-solid fa-check-double"></i><div class="val" id="kpiCompletion">--</div><div class="lbl">Workout Completion</div></div>
+      <div class="glass-card kpi"><i class="fa-solid fa-droplet"></i><div class="val" id="kpiWater">--</div><div class="lbl">Avg Water (L)</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="glass-card chart-box"><h4>Weight Trend</h4><canvas id="weightChart" height="130"></canvas></div>
+      <div class="glass-card chart-box"><h4>Goal Progress</h4><canvas id="goalChart" height="130"></canvas></div>
+    </div>
+    <div class="chart-grid">
+      <div class="glass-card chart-box"><h4>Weekly Calories Burned</h4><canvas id="calorieChart" height="130"></canvas></div>
+      <div class="glass-card chart-box"><h4>Water Intake (L)</h4><canvas id="waterChart" height="130"></canvas></div>
+    </div>
+    <div style="text-align:right;">
+      <button class="btn btn-outline btn-sm" onclick="clearDashboard()"><i class="fa-solid fa-trash"></i> Clear Log Data</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="page">
+  <div class="container">
+    <div class="section-head" data-aos="fade-up">
+      <span class="eyebrow">Get In Touch</span>
+      <h2 class="section-title">Contact <span class="grad-text">FitAI</span></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="glass-card">
+        <form id="contactForm">
+          <div class="form-grid">
+            <div class="field"><label>Name</label><input type="text" required></div>
+            <div class="field"><label>Email</label><input type="email" required></div>
+          </div>
+          <div class="field" style="margin-top:20px;"><label>Message</label><textarea rows="5" required></textarea></div>
+          <button type="submit" class="btn btn-primary" style="margin-top:20px;"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+        </form>
+      </div>
+      <div>
+        <div class="contact-info-item"><i class="fa-solid fa-location-dot"></i><div><b>Studio Address</b><p class="section-sub" style="margin:4px 0 0;">42 Iron Street, Fitness District, Lucknow, India</p></div></div>
+        <div class="contact-info-item"><i class="fa-solid fa-phone"></i><div><b>Phone</b><p class="section-sub" style="margin:4px 0 0;">+91 98765 43210</p></div></div>
+        <div class="contact-info-item"><i class="fa-solid fa-envelope"></i><div><b>Email</b><p class="section-sub" style="margin:4px 0 0;">hello@fitai.app</p></div></div>
+        <div class="contact-info-item"><i class="fa-solid fa-clock"></i><div><b>Hours</b><p class="section-sub" style="margin:4px 0 0;">Mon–Sun · 5:00 AM – 11:00 PM</p></div></div>
+        <div class="social-mini" style="justify-content:flex-start;margin-top:20px;">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand" style="margin-bottom:14px;">Fit<span>AI</span></div>
+        <p class="section-sub" style="margin:0;max-width:320px;">Smart AI gym trainer & diet planner helping you train and eat with purpose.</p>
+        <div class="footer-social">
+          <a href="#" class="icon-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="icon-btn"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="icon-btn"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" class="icon-btn"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div><h5>Explore</h5><ul>
+        <li><a href="#planner">AI Planner</a></li><li><a href="#workout">Workout Plan</a></li>
+        <li><a href="#diet">Diet Plan</a></li><li><a href="#library">Exercise Library</a></li>
+      </ul></div>
+      <div><h5>Tools</h5><ul>
+        <li><a href="#calculators">BMI Calculator</a></li><li><a href="#calculators">Calorie Calculator</a></li>
+        <li><a href="#dashboard">Progress Dashboard</a></li><li><a href="#contact">Contact Us</a></li>
+      </ul></div>
+      <div><h5>Contact</h5><ul>
+        <li><i class="fa-solid fa-phone"></i> +91 98765 43210</li>
+        <li><i class="fa-solid fa-envelope"></i> hello@fitai.app</li>
+        <li><i class="fa-solid fa-location-dot"></i> Lucknow, India</li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">© 2026 FitAI. All rights reserved. Built for demonstration purposes.</div>
+  </div>
+</footer>
+
+<button id="scrollTopBtn"><i class="fa-solid fa-arrow-up"></i></button>
+
+<div id="timerWidget">
+  <div class="timer-head" id="timerHead"><span><i class="fa-solid fa-stopwatch"></i> <span id="timerModeLabel">Rest Timer</span></span><i class="fa-solid fa-chevron-up" id="timerChevron"></i></div>
+  <div class="timer-body">
+    <div class="timer-display" id="timerDisplay">01:00</div>
+    <div class="timer-controls">
+      <button id="timerStart"><i class="fa-solid fa-play"></i></button>
+      <button id="timerPause"><i class="fa-solid fa-pause"></i></button>
+      <button id="timerReset"><i class="fa-solid fa-rotate-left"></i></button>
+      <button id="timerModeBtn" title="Switch mode"><i class="fa-solid fa-repeat"></i></button>
+    </div>
+    <div class="timer-presets">
+      <button data-t="30">30s</button><button data-t="60">60s</button><button data-t="90">90s</button><button data-t="120">2m</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="exModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js" defer></script>
+
+
+
+
+
+
+
+
+<script src="script.js" defer></script>
+</body>
+</html>
