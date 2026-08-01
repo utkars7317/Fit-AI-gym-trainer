@@ -286,7 +286,9 @@ function goTo(id){
   const target = document.getElementById(id);
   if(target) target.classList.add('active');
   $$('.nav-links a').forEach(a=>a.classList.toggle('active',a.dataset.nav===id));
+  if(id !== 'home'){
   window.scrollTo({top:0,behavior:'smooth'});
+}
   history.replaceState(null,'',`#${id}`);
   $('#navLinks').classList.remove('open');
   if(id==='library') renderLibrary();
