@@ -1,9 +1,9 @@
 /* ============ ROOT / THEME ============ */
 :root[data-theme="dark"]{
-  --bg:#0B0B0B; --bg-alt:#131313; --bg-card:rgba(255, 255, 255, 0.04);
-  --card-border:rgba(255,255,255,.08); --text:#633c3c; --text-dim:#9c9c9c;
+  --bg:#000000; --bg-alt:#040404; --bg-card:rgba(255, 255, 255, 0.04);
+  --card-border:rgba(255,255,255,.08); --text:#b19797; --text-dim:#fbfbfb;
   --red:#FF3B3B; --red-dim:rgba(255,59,59,.15); --gold:#FFD700;
-  --glass:rgba(20,20,20,.55);
+  --glass:rgba(18, 17, 17, 0.55);
 }
 :root[data-theme="light"]{
   --bg:#F3F3F1; --bg-alt:#FFFFFF; --bg-card:rgba(0,0,0,.03);
