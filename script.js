@@ -51,7 +51,7 @@ const GALLERY = [
 const TESTIMONIALS = [
  {name:"Tejas Trivedi", role:"Lost 14kg", img:"tejas.jpeg", text:"FitAI's weekly plan actually adapted to my schedule. Down 14kg in 5 months and still going."},
  {name:"Abhishek Gupta", role:"Muscle Gain", img:"Abhishek.jpeg", text:"The diet planner made bulking simple — I finally hit my protein targets every single day."},
- {name:"Manish Kumar", role:"Strength Athlete", img:"manish.jpeg", text:"Best free-form planner I've used. The exercise library alone is worth it for form checks."}
+ {name:"Manish Kumar", role:"Strength Athlete", img:"Manish.jpeg", text:"Best free-form planner I've used. The exercise library alone is worth it for form checks."}
 ];
 
 /* Exercise Library Database */
