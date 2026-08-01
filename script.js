@@ -15,10 +15,30 @@ const QUOTES = [
 ];
 
 const TRAINERS = [
- {name:"Arjun Malhotra", tag:"Strength & Conditioning", img:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=55&w=300&auto=format&fit=crop"},
- {name:"Priya Nair", tag:"Nutrition & Fat Loss", img:"https://images.unsplash.com/photo-1548690312-e3b507d8c110?q=55&w=300&auto=format&fit=crop"},
- {name:"Marcus Reed", tag:"Bodybuilding Coach", img:"https://images.unsplash.com/photo-1594381898411-846e7d193883?q=55&w=300&auto=format&fit=crop"},
- {name:"Elena Cruz", tag:"Mobility & Yoga", img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=55&w=300&auto=format&fit=crop"}
+ {
+   name: "fit.rajveer",
+   tag: "Strength & Conditioning",
+   img: "Rajveer.jpeg",
+   instagram: "https://www.instagram.com/fit.rajveerr/"
+ },
+ {
+   name: "Angesh Gupta",
+   tag: "Bodybuilding Coach",
+   img: "Angesh.jpeg",
+   instagram: "https://www.instagram.com/angesh_1/"
+ },
+ {
+   name: "Dhanraj Jaiswal",
+   tag: "Nutrition Specialist",
+   img: "Dhanrajj.jpeg",
+   instagram: "https://www.instagram.com/_i_m_dhanraj/"
+ },
+ {
+   name: "Utkarsh Gupta",
+   tag: "Mobility & Yoga",
+   img: "Utkarsh.jpeg",
+   instagram: "https://www.instagram.com/_hey__utkarsh__/"
+ }
 ];
 
 const GALLERY = [
@@ -29,9 +49,9 @@ const GALLERY = [
 ];
 
 const TESTIMONIALS = [
- {name:"Vikram S.", role:"Lost 14kg", img:"https://i.pravatar.cc/80?img=12", text:"FitAI's weekly plan actually adapted to my schedule. Down 14kg in 5 months and still going."},
- {name:"Ayesha K.", role:"Muscle Gain", img:"https://i.pravatar.cc/80?img=32", text:"The diet planner made bulking simple — I finally hit my protein targets every single day."},
- {name:"Dev Patel", role:"Strength Athlete", img:"https://i.pravatar.cc/80?img=51", text:"Best free-form planner I've used. The exercise library alone is worth it for form checks."}
+ {name:"Tejas Trivedi", role:"Lost 14kg", img:"tejas.jpeg", text:"FitAI's weekly plan actually adapted to my schedule. Down 14kg in 5 months and still going."},
+ {name:"Abhishek Gupta", role:"Muscle Gain", img:"Abhishek.jpeg", text:"The diet planner made bulking simple — I finally hit my protein targets every single day."},
+ {name:"Manish Kumar", role:"Strength Athlete", img:"manish.jpeg", text:"Best free-form planner I've used. The exercise library alone is worth it for form checks."}
 ];
 
 /* Exercise Library Database */
@@ -328,7 +348,11 @@ function renderHome(){
     <div class="glass-card trainer-card" data-aos="fade-up">
       <div class="trainer-img"><img src="${t.img}" alt="${t.name}" loading="lazy" decoding="async" width="120" height="120"></div>
       <h3>${t.name}</h3><span class="trainer-tag">${t.tag}</span>
-      <div class="social-mini"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></div>
+     <div class="social-mini">
+  <a href="${t.instagram}" target="_blank">
+    <i class="fa-brands fa-instagram"></i>
+  </a>
+</div>
     </div>`).join('');
   $('#galleryGrid').innerHTML = GALLERY.map(g=>`
     <div class="gallery-item" data-aos="zoom-in"><img src="${g.img}" alt="${g.name}" loading="lazy" decoding="async" width="440" height="580"><div class="gallery-overlay">${g.name}</div></div>`).join('');
