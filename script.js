@@ -346,27 +346,87 @@ statsObserver.observe($('.hero-stats'));
 
 /* ---------- RENDER HOME DYNAMIC CONTENT ---------- */
 function renderHome(){
-  $('#trainerGrid').innerHTML = TRAINERS.map(t=>`
-    <div class="glass-card trainer-card" data-aos="fade-up">
-      <div class="trainer-img"><img src="${t.img}" alt="${t.name}" loading="lazy" decoding="async" width="120" height="120"></div>
-      <h3>${t.name}</h3><span class="trainer-tag">${t.tag}</span>
-     <div class="social-mini">
-  <a href="${t.instagram}" target="_blank">
-    <i class="fa-brands fa-instagram"></i>
-  </a>
-</div>
-    </div>`).join('');
-  $('#galleryGrid').innerHTML = GALLERY.map(g=>`
-    <div class="gallery-item" data-aos="zoom-in"><img src="${g.img}" alt="${g.name}" loading="lazy" decoding="async" width="440" height="580"><div class="gallery-overlay">${g.name}</div></div>`).join('');
-  $('#testiGrid').innerHTML = TESTIMONIALS.map(t=>`
-    <div class="glass-card testi-card" data-aos="fade-up">
-      <div class="testi-stars">★★★★★</div>
-      <p style="color:var(--text-dim);font-size:.92rem;">"${t.text}"</p>
-      <div class="testi-user"><img src="${t.img}" alt="${t.name}" loading="lazy" decoding="async" width="44" height="44"><div><b>${t.name}</b><span>${t.role}</span></div></div>
-    </div>`).join('');
-}
-renderHome();
 
+  const trainerGrid = document.getElementById('trainerGrid');
+
+  if(trainerGrid){
+    trainerGrid.innerHTML = TRAINERS.map(t => `
+         <div class="glass-card trainer-card">
+
+        <div class="trainer-img">
+          <img 
+            src="${t.img}" 
+            alt="${t.name}"
+            width="120"
+            height="120"
+          >
+        </div>
+
+        <h3>${t.name}</h3>
+
+        <span class="trainer-tag">
+          ${t.tag}
+        </span>
+
+        <div class="social-mini">
+          <a href="${t.instagram}" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+        </div>
+
+      </div>
+    `).join('');
+  }
+
+  const galleryGrid = document.getElementById('galleryGrid');
+
+  if(galleryGrid){
+    galleryGrid.innerHTML = GALLERY.map(g => `
+      <div class="gallery-item">
+        <img 
+          src="${g.img}" 
+          alt="${g.name}"
+          loading="lazy"
+          width="440"
+          height="580"
+        >
+        <div class="gallery-overlay">${g.name}</div>
+      </div>
+    `).join('');
+  }
+
+  const testiGrid = document.getElementById('testiGrid');
+
+  if(testiGrid){
+    testiGrid.innerHTML = TESTIMONIALS.map(t => `
+      <div class="glass-card testi-card">
+
+        <div class="testi-stars">★★★★★</div>
+
+        <p style="color:var(--text-dim);font-size:.92rem;">
+          "${t.text}"
+        </p>
+
+        <div class="testi-user">
+          <img 
+            src="${t.img}" 
+            alt="${t.name}"
+            width="44"
+            height="44"
+          >
+
+          <div>
+            <b>${t.name}</b>
+            <span>${t.role}</span>
+          </div>
+        </div>
+
+      </div>
+    `).join('');
+  }
+}
+
+renderHome();
 /* ---------- CHIP SELECTORS (planner form) ---------- */
 function wireChips(containerId){
   $$(`#${containerId} .chip`).forEach(c=>c.addEventListener('click',()=>{
@@ -706,8 +766,20 @@ function openExerciseModal(id){
     </div>`;
   $('#exModal').classList.add('show');
 }
-function closeModal(){ $('#exModal').classList.remove('show'); }
-$('#exModal').addEventListener('click',e=>{ if(e.target.id==='exModal') closeModal(); });
+function closeModal(){
+  const modal = $('#exModal');
+  if(modal) modal.classList.remove('show');
+}
+
+const exModal = $('#exModal');
+
+if(exModal){
+  exModal.addEventListener('click', e => {
+    if(e.target.id === 'exModal'){
+      closeModal();
+    }
+  });
+}
 
 /* ==================== NEXT FILE SECTION ==================== */
 
@@ -834,53 +906,3 @@ function renderDashboard(){
 
 /* ==================== NEXT FILE SECTION ==================== */
 
-/* ======================================================================
-   WORKOUT / REST TIMER WIDGET
-====================================================================== */
-let timerSeconds = 60, timerInterval = null, timerMode = 'Rest Timer';
-function updateTimerDisplay(){
-  const m = String(Math.floor(timerSeconds/60)).padStart(2,'0');
-  const s = String(timerSeconds%60).padStart(2,'0');
-  $('#timerDisplay').textContent = `${m}:${s}`;
-}
-$('#timerHead').addEventListener('click',()=>{
-  $('#timerWidget').classList.toggle('collapsed');
-  $('#timerChevron').classList.toggle('fa-chevron-up');
-  $('#timerChevron').classList.toggle('fa-chevron-down');
-});
-$('#timerStart').addEventListener('click',()=>{
-  if(timerInterval) return;
-  timerInterval = setInterval(()=>{
-    if(timerSeconds<=0){ clearInterval(timerInterval); timerInterval=null; toast(`${timerMode} complete!`); return; }
-    timerSeconds--; updateTimerDisplay();
-  },1000);
-});
-$('#timerPause').addEventListener('click',()=>{ clearInterval(timerInterval); timerInterval=null; });
-$('#timerReset').addEventListener('click',()=>{ clearInterval(timerInterval); timerInterval=null; timerSeconds=60; updateTimerDisplay(); });
-$('#timerModeBtn').addEventListener('click',()=>{
-  timerMode = timerMode==='Rest Timer' ? 'Workout Timer' : 'Rest Timer';
-  $('#timerModeLabel').textContent = timerMode;
-});
-$$('.timer-presets button').forEach(b=>b.addEventListener('click',()=>{
-  clearInterval(timerInterval); timerInterval=null;
-  timerSeconds = +b.dataset.t; updateTimerDisplay();
-}));
-updateTimerDisplay();
-
-/* ======================================================================
-   CONTACT FORM (demo submit)
-====================================================================== */
-$('#contactForm').addEventListener('submit',e=>{
-  e.preventDefault();
-  toast('Message sent! We will get back to you shortly.');
-  e.target.reset();
-});
-
-/* ======================================================================
-   INIT
-====================================================================== */
-renderCatTabs();
-if(typeof AOS !== 'undefined') AOS.init({duration:700,once:true,offset:60});
-if(currentWorkout){ renderWorkoutPage(); }
-if(currentDiet){ renderDietPage(); }
-if(currentProfile){ $('#plannerResult').style.display='block'; }
