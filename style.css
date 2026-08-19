@@ -369,3 +369,22 @@ img {
     max-width: 100%;
     height: auto;
 }
+
+.footer-credit {
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  margin-top: 20px;
+}
+
+.footer-credit a {
+  color: #00ff88;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-credit a:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
